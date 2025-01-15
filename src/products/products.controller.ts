@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  Query,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -18,20 +28,21 @@ export class ProductsController {
 
   @Post()
   @Auth()
-  @ApiResponse({ status:201, description: 'Product was created', type: Product })
-  @ApiResponse({ status:400, description: 'Bad request' })
-  @ApiResponse({ status:403, description: 'Forbidden. Token related.' })
-  create(
-    @Body() createProductDto: CreateProductDto,
-    @GetUser() user: User,
-) {
+  @ApiResponse({
+    status: 201,
+    description: 'Product was created',
+    type: Product,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 403, description: 'Forbidden. Token related.' })
+  create(@Body() createProductDto: CreateProductDto, @GetUser() user: User) {
     return this.productsService.create(createProductDto, user);
   }
-  
+
   @Get()
   @Auth()
-  findAll( @Query() paginationDto: PaginationDto ) {
-    return this.productsService.findAll( paginationDto );
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.productsService.findAll(paginationDto);
   }
 
   @Get(':term')
@@ -40,9 +51,9 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  @Auth( ValidRoles.admin )
+  @Auth(ValidRoles.admin)
   update(
-    @Param('id', ParseUUIDPipe) id: string, 
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
     @GetUser() user: User,
   ) {
@@ -50,7 +61,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @Auth( ValidRoles.admin )
+  @Auth(ValidRoles.admin)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.remove(id);
   }

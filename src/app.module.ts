@@ -14,11 +14,14 @@ import { MessagesWsModule } from './messages-ws/messages-ws.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      ssl: process.env.STAGE === 'prod' ? true: false,
-      extra:{
-        ssl: process.env.STAGE === 'prod' ? true: false
+      ssl: process.env.STAGE === 'prod' ? true : false,
+      extra: {
+        ssl:
+          process.env.STAGE === 'prod'
+            ? true
+            : false
               ? { rejectUnauthorized: false }
-              :null,
+              : null,
       },
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -31,16 +34,14 @@ import { MessagesWsModule } from './messages-ws/messages-ws.module';
     }),
 
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname,'..','public'),
-    }), 
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     ProductsModule,
     CommonModule,
     SeedModule,
     FilesModule,
     AuthModule,
     MessagesWsModule,
-    
   ],
-
 })
 export class AppModule {}

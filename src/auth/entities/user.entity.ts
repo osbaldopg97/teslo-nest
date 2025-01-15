@@ -1,55 +1,57 @@
-import { Product } from "src/products/entities";
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from 'src/products/entities';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users') // Nombre que se le pondra en la base de datos
 export class User {
-    
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column('text',{
-        unique: true,
-    })
-    email: string;
+  @Column('text', {
+    unique: true,
+  })
+  email: string;
 
-    //Si hago un findOneBy 
-    @Column({
-        type: 'text',
-        select: false
-    })
-    password: string;
+  //Si hago un findOneBy
+  @Column({
+    type: 'text',
+    select: false,
+  })
+  password: string;
 
-    @Column({
-        type: 'text',
-    })
-    fullName: string;
-    
-    @Column({
-        type: 'bool',
-        default: true
-    })
-    isActive: boolean;
+  @Column({
+    type: 'text',
+  })
+  fullName: string;
 
-    @Column('text',{
-        array: true,
-        default: ['user']
-    })
-    roles: string[];
+  @Column({
+    type: 'bool',
+    default: true,
+  })
+  isActive: boolean;
 
-    @OneToMany(
-        () => Product,
-        ( product ) => product.user
-    )
-    product: Product;
+  @Column('text', {
+    array: true,
+    default: ['user'],
+  })
+  roles: string[];
 
-    @BeforeInsert()
-    checkFieldsBeforeInsert() {
-        this.email = this.email.toLowerCase().trim();
-    }
+  @OneToMany(() => Product, (product) => product.user)
+  product: Product;
 
-    @BeforeUpdate()
-    checkFieldsBeforeUpdate() {
-        this.checkFieldsBeforeInsert();
-    }
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email = this.email.toLowerCase().trim();
+  }
 
+  @BeforeUpdate()
+  checkFieldsBeforeUpdate() {
+    this.checkFieldsBeforeInsert();
+  }
 }

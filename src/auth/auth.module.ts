@@ -14,33 +14,27 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 @Module({
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  imports:[
+  imports: [
     ConfigModule,
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }), //Json web tockens
 
     JwtModule.registerAsync({
-      imports: [ ConfigModule ],
-      inject: [ ConfigService ],
-      useFactory: ( configService: ConfigService ) => {
-
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
         //console.log('JWT Secret', configService.get('JWT_SECRET'));
         //console.log('JWT Secret', process.env.JWT_SECRET);
-      
+
         return {
           secret: configService.get('JWT_SECRET'),
-          signOptions:{
-            expiresIn:'2h'
-          }
-        }
-      }
-    })
+          signOptions: {
+            expiresIn: '2h',
+          },
+        };
+      },
+    }),
   ],
-  exports: [
-    TypeOrmModule,
-    JwtStrategy,
-    PassportModule,
-    JwtModule
-  ],
+  exports: [TypeOrmModule, JwtStrategy, PassportModule, JwtModule],
 })
 export class AuthModule {}
